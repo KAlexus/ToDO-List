@@ -1,0 +1,151 @@
+﻿<Page x:Class="ToDO.EntryAdd"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:domain="clr-namespace:ToDO"
+      d:DataContext="{d:DesignInstance domain:EntryAddViewModel, d:IsDesignTimeCreatable=False}"
+      mc:Ignorable="d" 
+      MinHeight="640" MinWidth="360" 
+      Title="Entry">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBox.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MaterialDesignTextBox}">
+                <Setter Property="Margin" Value="0 8 0 8" />
+            </Style>
+            <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource MaterialDesignComboBox}">
+                <Setter Property="HorizontalAlignment" Value="Stretch" />
+                <Setter Property="Margin" Value="0 8 0 8" />
+            </Style>
+        </ResourceDictionary>
+    </Page.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="56"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <materialDesign:ColorZone Height="56" 
+                                  materialDesign:ShadowAssist.ShadowDepth="Depth2" 
+                                  Mode="PrimaryMid">
+            <DockPanel LastChildFill="False">  
+                <Button x:Name="BackButton" Background="{x:Null}" BorderBrush="{x:Null}" 
+                        Width="56" Height="56" MaxWidth="56" MaxHeight="56" Padding="4"
+                       Command="{Binding BackCommand}">
+                    <materialDesign:PackIcon Kind="ArrowLeft" Height="36" Width="36" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+                </Button>
+                
+                <TextBlock FontSize="22" FontFamily="Roboto"
+                           Margin="16 0 0 0" 
+                           DockPanel.Dock="Left" VerticalAlignment="Center" HorizontalAlignment="Center">Add task</TextBlock>
+                
+                <Button Background="{x:Null}" BorderBrush="{x:Null}" 
+                        Width="56" Height="56" MaxWidth="56" MaxHeight="56" Padding="4" 
+                        DockPanel.Dock="Right"
+                        Command="{Binding AddEntryCommand}">
+                    <materialDesign:PackIcon x:Name="AddButton" Kind="Check" Height="36" Width="36" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+                </Button>
+                <!--<Button Background="{x:Null}" BorderBrush="{x:Null}" Width="56" Height="56" MaxWidth="56" MaxHeight="56" Padding="4" DockPanel.Dock="Right">
+                    <materialDesign:PackIcon Kind="Close" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+                </Button>-->
+            </DockPanel>
+        </materialDesign:ColorZone>
+
+        <Grid Grid.Row="1" 
+              Width="328" Margin="16" VerticalAlignment="Top" 
+              ScrollViewer.HorizontalScrollBarVisibility="Visible">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            
+            <TextBox Grid.Row="0"
+                     x:Name="TitleTextBox"
+                     Margin="6,16,0,0"
+                     FontSize="20" FontFamily="Roboto"
+                     materialDesign:HintAssist.Hint="Title">
+                <TextBox.Text>
+                    <Binding Path="Title" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <domain:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+       
+            <Label Grid.Row="1" FontSize="20" FontFamily="Roboto" Margin="0,16,0,0">Description</Label>
+            <TextBox x:Name="DescriptionTextBox" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Stretch"
+                     MinWidth="280" Margin="6 0 0 0"
+                     AcceptsReturn="True"
+                     VerticalScrollBarVisibility="Auto"
+                     materialDesign:HintAssist.Hint="Enter a description here..."
+                     FontSize="16" FontFamily="Roboto"       
+                     Height="120" VerticalContentAlignment="Top">
+                <TextBox.Text>
+                    <Binding Path="Description" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <domain:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+
+            <Label Grid.Row="3" FontSize="20" FontFamily="Roboto" Margin="0,16,0,0">Priority</Label>
+            <ComboBox Grid.Row="4" 
+                      
+                      Margin="6,0"
+                      VerticalAlignment="Bottom"  
+                      Name="PriorityList"
+                      FontSize="20" FontFamily="Roboto"
+                      Height="36" IsReadOnly="True"
+                      SelectedItem ="{Binding Priority}"
+                      SelectedIndex="{Binding PriorityIndex}"
+                     >
+                <ComboBoxItem>Low</ComboBoxItem>
+                <ComboBoxItem>Standart</ComboBoxItem>
+                <ComboBoxItem>High</ComboBoxItem>
+            </ComboBox>
+            
+            <Label Grid.Row="5" FontSize="20" FontFamily="Roboto" Margin="0,16,0,0">Date</Label>
+            <DatePicker x:Name="StartDatePicker" Grid.Row="6" 
+                        Width="322"
+                        FontSize="16" FontFamily="Roboto"
+                        HorizontalAlignment="Left" 
+                        Style="{StaticResource MaterialDesignFloatingHintDatePicker}" 
+                        HorizontalContentAlignment="Stretch" 
+                        VerticalContentAlignment="Center" 
+                        Margin="6,0,0,0" FirstDayOfWeek="Monday" Focusable="False"
+                        SelectedDate="{Binding DateEnd}"/>
+            
+            <Label Grid.Row="7" FontSize="20" FontFamily="Roboto" Margin="0,16,0,0">Location</Label>
+            <TextBox Grid.Row="8"
+                     x:Name="LocationTextBox"
+                     materialDesign:HintAssist.Hint="Enter a location..."
+                     Margin="6 0 0 0"
+                     FontSize="16" FontFamily="Roboto">
+                <TextBox.Text>
+                    <Binding Path="Location" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <domain:LengthValidationRule ValidatesOnTargetUpdated="True" />
+                        </Binding.ValidationRules>
+                    </Binding>
+                             
+                </TextBox.Text>
+            </TextBox>
+        </Grid>
+    </Grid>
+</Page>
