@@ -1,16 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Collections.ObjectModel;
-using System.Data.Entity;
 using System.Runtime.CompilerServices;
-using System.Windows.Navigation;
 using System.Windows;
-using System.Windows.Controls.Primitives;
-using MaterialDesignThemes.Wpf;
 using static ToDO.MainWindow;
 
 namespace ToDO
@@ -37,7 +29,7 @@ namespace ToDO
             {
                 return _addCommand ?? (_addCommand = new ToDoCommand(obj =>
                 {
-                    Navigation.Navigate(new System.Uri("EntryAdd.xaml", UriKind.RelativeOrAbsolute));
+                    Navigation.Navigate(new Uri("EntryAdd.xaml", UriKind.RelativeOrAbsolute));
                 }));
             }
         }
@@ -48,7 +40,7 @@ namespace ToDO
                 return _editCommand ?? (_editCommand = new ToDoCommand(obj =>
                        {
                            Entry = SelectedEntry;
-                           Navigation.Navigate(new System.Uri("EntryEdit.xaml", UriKind.RelativeOrAbsolute));
+                           Navigation.Navigate(new Uri("EntryEdit.xaml", UriKind.RelativeOrAbsolute));
                        },
                        (obj) => SelectedEntry != null));
             }
@@ -94,7 +86,7 @@ namespace ToDO
             {
                 Entry = value;
                 _selectedEntry = value;
-
+                
                 OnPropertyChanged("SelectedEntry");
             }
         }

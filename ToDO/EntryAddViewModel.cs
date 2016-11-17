@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Windows;
 using System.Windows.Controls;
 
 namespace ToDO
@@ -9,9 +8,6 @@ namespace ToDO
     public class EntryAddViewModel : INotifyPropertyChanged
     {
         private ToDoEntries _newEntry;
-#pragma warning disable CS0169 // The field 'EntryAddViewModel._currentEntry' is never used
-        private ToDoEntries _currentEntry;
-#pragma warning restore CS0169 // The field 'EntryAddViewModel._currentEntry' is never used
 
         public string Title { get; set; }
         public string Description { get; set; }
@@ -49,8 +45,8 @@ namespace ToDO
         }
         public EntryAddViewModel()
         {
-            this.DateEnd = DateTime.Now;
-            this.PriorityIndex = 1;
+            DateEnd = DateTime.Now;
+            PriorityIndex = 1;
         }
 
 
@@ -64,7 +60,7 @@ namespace ToDO
             {
                 Title = this.Title,
                 Description = this.Description,
-                Priority = Priority?.Content.ToString() ?? "Standart",
+                Priority = this.Priority?.Content.ToString() ?? "Standart",
                 DateCreation = DateTime.Now.ToString("dd/MM/yyyy"),
                 DateEnd = this.DateEnd.ToString("dd/MM/yyyy"),
                 Location = this.Location

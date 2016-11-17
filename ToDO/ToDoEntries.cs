@@ -4,8 +4,6 @@ using System.Runtime.CompilerServices;
 
 namespace ToDO
 {
-    public enum EntryPriority { Low, Standart, High}
-
     public class ToDoEntries : INotifyPropertyChanged, IDataErrorInfo
     {
         private string _title;
